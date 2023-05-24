@@ -31,9 +31,13 @@ public final class Constants {
     public static int TOP_FLYWHEEL_CAN_ID = 5;
     public static int BOTTOM_FLYWHEEL_CAN_ID = 6;
 
-    public static int SERVO_CHANNEL = 0;
+    public static int INDEXER_GATE_CAN_ID = 12;
 
+    public static boolean INDEXER_GATE_IS_INVERTED = true;
     public static boolean FLYWHEEL_IS_INVERTED = true;
+
+    public static int UPPER_BREAKBEAM_DIO = 0;
+    public static int LOWER_BREAKBEAM_DIO = 1;
   }
 
 

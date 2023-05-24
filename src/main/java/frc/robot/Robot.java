@@ -47,7 +47,8 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
 
 
 
-  private final TeleopControl teleopControl = new TeleopControl(drivetrain, shooter);
+  private final TeleopControl teleopControlForBigKids = new TeleopControl(drivetrain, shooter, 0.5);
+  private final TeleopControl teleopControlForLittleKids = new TeleopControl(drivetrain, shooter, 1);
 
 
   boolean lastButton = false;
@@ -132,8 +133,6 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
   @Override
   public void teleopPeriodic() {
 
-    scheduler.schedule(teleopControl);
-
     // boolean bButton = driverController.button(2).getAsBoolean();
 
     
@@ -151,7 +150,7 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
 
     // lastButton = bButton;
     
-   /* boolean rightBumper = driverController.rightBumper().getAsBoolean();
+    boolean rightBumper = driverController.rightBumper().getAsBoolean();
     boolean leftTrigger = driverController.leftTrigger().getAsBoolean();
     if(rightBumper == true && scheduler.isScheduled(teleopControlForBigKids) == false){
       scheduler.cancelAll();
@@ -159,7 +158,7 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
     } else if (rightBumper == false && scheduler.isScheduled(teleopControlForLittleKids) == false) {
       scheduler.cancelAll();
       scheduler.schedule(teleopControlForLittleKids);
-    }*/ 
+    }
     
   } 
     

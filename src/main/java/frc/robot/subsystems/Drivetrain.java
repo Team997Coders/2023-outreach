@@ -28,9 +28,9 @@ public class Drivetrain extends SubsystemBase {
     
   }
 
-  public void setOutput(DifferentialDrivetrainInput input) {
-    this.left.set(input.left);
-    this.right.set(input.right);
+  public void setOutput(double left, double right) {
+    this.left.set(left);
+    this.right.set(right);
   }
 
   @Override

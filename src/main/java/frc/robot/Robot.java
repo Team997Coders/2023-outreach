@@ -12,6 +12,7 @@ import com.ctre.phoenix.Logger;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -33,8 +34,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private final CommandXboxController driverController = 
-    new CommandXboxController(Constants.DRIVE_CONTROLLER_PORT);
+  private final XboxController driverController = 
+    new XboxController(0);
 
   private final Drivetrain drivetrain = new Drivetrain();
 
@@ -47,7 +48,7 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
 
 
 
-  private final TeleopControl teleopControlForBigKids = new TeleopControl(drivetrain, shooter, 0.5);
+  private final TeleopControl teleopControlForBigKids = new TeleopControl(drivetrain, shooter, 0.3);
   private final TeleopControl teleopControlForLittleKids = new TeleopControl(drivetrain, shooter, 1);
 
 
@@ -132,33 +133,33 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
-    // boolean bButton = driverController.button(2).getAsBoolean();
+    boolean xButton = driverController.getXButton();
+    
 
     
-    // if(bButton == false && lastButton == true) {
-    //   isSlowMode = !isSlowMode;
-    // } 
+    if(xButton == false && lastButton == true) {
+    isSlowMode = !isSlowMode;
+    } 
 
-    // if(isSlowMode == true) {
-    //   scheduler.cancelAll();
-    //   scheduler.schedule(teleopControlForLittleKids);
-    // } else {
+     if(isSlowMode == true) {
+       scheduler.cancelAll();
+       scheduler.schedule(teleopControlForLittleKids);
+     } else {
+       scheduler.cancelAll();
+       scheduler.schedule(teleopControlForBigKids);
+     }
+
+    lastButton = xButton;
+    
+    // boolean rightBumper = driverController.rightBumper().getAsBoolean();
+    // boolean leftTrigger = driverController.leftTrigger().getAsBoolean();
+    // if(rightBumper == true && scheduler.isScheduled(teleopControlForBigKids) == false){
     //   scheduler.cancelAll();
     //   scheduler.schedule(teleopControlForBigKids);
+    // } else if (rightBumper == false && scheduler.isScheduled(teleopControlForLittleKids) == false) {
+    //   scheduler.cancelAll();
+    //   scheduler.schedule(teleopControlForLittleKids);
     // }
-
-    // lastButton = bButton;
-    
-    boolean rightBumper = driverController.rightBumper().getAsBoolean();
-    boolean leftTrigger = driverController.leftTrigger().getAsBoolean();
-    if(rightBumper == true && scheduler.isScheduled(teleopControlForBigKids) == false){
-      scheduler.cancelAll();
-      scheduler.schedule(teleopControlForBigKids);
-    } else if (rightBumper == false && scheduler.isScheduled(teleopControlForLittleKids) == false) {
-      scheduler.cancelAll();
-      scheduler.schedule(teleopControlForLittleKids);
-    }
     
   } 
     

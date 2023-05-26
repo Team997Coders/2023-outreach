@@ -22,19 +22,18 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TeleopControl extends CommandBase {
+
+
     private final XboxController driverController = new XboxController(0); 
    
-
-    // private DifferentialDriveMode driveMode;
-
-    
-
-
     private final Drivetrain drivetrain;
     private final Shooter shooter;
     private final double driveModifier;
+    boolean lastbButton = false;
+    boolean isShooting = false;
 
     private final Timer timer = new Timer();
 
@@ -42,40 +41,6 @@ public class TeleopControl extends CommandBase {
     this.drivetrain = drivetrain;
     this.shooter = shooter;
     this.driveModifier = driveModifier;
-    // JoystickAxis rotational = driverController.rightStickHorizontalAxis();
-    // JoystickAxis linearLeft = driverController.leftStickVerticalAxis();
-    // JoystickAxis linearRight = driverController.rightStickVerticalAxis();
-    // JoystickAxis rightTriggerAxis = driverController.rightTriggerAxis();
-    // rotational.setInverted(true);
-
-    // HighLevelLogger.getInstance().logMessage(rotational.isInverted() ? "STICK INVERTED": "STICK NOT INVERTED");      
-
-      
-    //   driveMode = new ArcadeDrive(linearLeft, rotational, 1, 1, Constants.Drivetrain.LINEAR_RAMP_RATE, Constants.Drivetrain.ANGULAR_RAMP_RATE);
-      
-
-    // Config.DRIVE_MODE_CHOOSER.registerListener((prev, next) -> {
-
-    // if (next == Config.DriveMode.ARCADE) {
-    //   driveMode = new ArcadeDrive(linearLeft, rotational, 1, 1, Constants.Drivetrain.LINEAR_RAMP_RATE, Constants.Drivetrain.ANGULAR_RAMP_RATE);
-    // } else if (next == Config.DriveMode.CURVATURE) {
-    //   driveMode = new CurvatureDrive(linearLeft, rotational, 1, 1, Constants.Drivetrain.LINEAR_RAMP_RATE, Constants.Drivetrain.ANGULAR_RAMP_RATE, false);
-    // } else if (next == Config.DriveMode.MIXED_ARCADE) {
-      
-    //   driveMode = new MixedDrive(Map.of(
-    //     new ArcadeDrive(linearLeft, rotational, 1, 1, Constants.Drivetrain.LINEAR_RAMP_RATE, Constants.Drivetrain.ANGULAR_RAMP_RATE), 0.7,
-    //     new CurvatureDrive(linearLeft, rotational, 1, 1, Constants.Drivetrain.LINEAR_RAMP_RATE, Constants.Drivetrain.ANGULAR_RAMP_RATE, false), 0.3
-    //   ));
-    // } else if (next == Config.DriveMode.MIXED_CURVATURE) {
-    //   driveMode = new MixedDrive(Map.of(
-    //     new CurvatureDrive(linearLeft, rotational, 1, 1, Constants.Drivetrain.LINEAR_RAMP_RATE, Constants.Drivetrain.ANGULAR_RAMP_RATE, false), 0.7, 
-    //     new ArcadeDrive(linearLeft, rotational, 1, 1, Constants.Drivetrain.LINEAR_RAMP_RATE, Constants.Drivetrain.ANGULAR_RAMP_RATE), 0.3
-    //   ));
-    // } else if (next == Config.DriveMode.TANK) {
-    //   driveMode = new TankDrive(linearLeft, linearRight);
-    // }
-        
-    //   });
     }
 
     @Override
@@ -90,6 +55,7 @@ public class TeleopControl extends CommandBase {
       boolean yButton = driverController.getYButton();
       boolean rightBumper = driverController.getRightBumper();
       boolean leftBumper = driverController.getLeftBumper();
+      
 
 
 
@@ -109,19 +75,36 @@ public class TeleopControl extends CommandBase {
         drivetrain.setOutput(1*driveModifier, -1*driveModifier);
       }
     
-      if (aButton==true){
-        shooter.setFlywheelOutput(1.0);
-      } else if (aButton==false) {
-        shooter.setFlywheelOutput(0);
+
+      if(yButton == true) {
+        shooter.setIndexerVoltage(-11);
+      } else if (yButton == false) {
+        shooter.setIndexerVoltage(0);
+      }
+      SmartDashboard.putBoolean("bButton", bButton);
+      SmartDashboard.putBoolean("lastbButton", lastbButton);
+      if (bButton == true && lastbButton == false) {
+        if (!isShooting) {
+          isShooting = true;
+          timer.restart();
+          SmartDashboard.putString("Button", "pressed");
+        }
+      }
+      lastbButton = bButton;
+      SmartDashboard.putNumber("Timer", timer.get());
+      if (isShooting) {
+        shooter.setFlywheelOutput(12);
+        shooter.setIndexerVoltage(12);
+        if (shooter.getLowerBreakbeam()){
+          shooter.setIndexerVoltage(0);
+        }
+        if (timer.get() >= 2.6){
+          isShooting = false;
+          shooter.setFlywheelOutput(0);
+        }
       }
 
-   
-
-    if (bButton == true) {
-     shooter.setIndexerVoltage(3);
-    } else {
-     shooter.setIndexerVoltage(0);
-    }
+    
     }
   }
 

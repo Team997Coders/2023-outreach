@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -30,6 +32,7 @@ public final class Constants {
   public static final class Shooter {
     public static int TOP_FLYWHEEL_CAN_ID = 5;
     public static int BOTTOM_FLYWHEEL_CAN_ID = 6;
+    public static int HOOD_CAN_ID = 7;
 
     public static int INDEXER_GATE_CAN_ID = 12;
 
@@ -38,6 +41,11 @@ public final class Constants {
 
     public static int UPPER_BREAKBEAM_DIO = 0;
     public static int LOWER_BREAKBEAM_DIO = 1;
+    public static int HOOD_SWITCH_DIO = 6;
+
+    public static int[] HOOD_ENCODER_DIO = {7, 8};
+
+    public static final FeedbackDevice HOOD_FEEDBACK_DEVICE = FeedbackDevice.QuadEncoder;
   }
 
 

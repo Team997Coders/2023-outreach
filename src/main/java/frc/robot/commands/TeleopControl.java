@@ -55,8 +55,9 @@ public class TeleopControl extends CommandBase {
       boolean yButton = driverController.getYButton();
       boolean rightBumper = driverController.getRightBumper();
       boolean leftBumper = driverController.getLeftBumper();
-      
-
+      boolean rightTrigger = driverController.getRightTriggerAxis()>0.0;
+      boolean leftTrigger = driverController.getLeftTriggerAxis()>0.0;
+   
 
 
       // drivetrain.setOutput(driveMode.execute());
@@ -76,11 +77,14 @@ public class TeleopControl extends CommandBase {
       }
     
 
-      if(yButton == true) {
-        shooter.setIndexerVoltage(-11);
-      } else if (yButton == false) {
+      if (aButton == true) {
+        shooter.setFlywheelOutput(12);
+        shooter.setIndexerVoltage(12);
+      } else if (aButton == false) {
+        shooter.setFlywheelOutput(0);
         shooter.setIndexerVoltage(0);
       }
+
       SmartDashboard.putBoolean("bButton", bButton);
       SmartDashboard.putBoolean("lastbButton", lastbButton);
       if (bButton == true && lastbButton == false) {
@@ -98,12 +102,26 @@ public class TeleopControl extends CommandBase {
         if (shooter.getLowerBreakbeam()){
           shooter.setIndexerVoltage(0);
         }
-        if (timer.get() >= 2.6){
+        if (timer.get() >= 2.7){
           isShooting = false;
           shooter.setFlywheelOutput(0);
+          shooter.setIndexerVoltage(0);
+          timer.reset();
+          timer.stop();
         }
       }
 
+
+      // if (leftTrigger== true ) {
+      //   shooter.setHoodOutput(-0.1);
+      // } else if (leftTrigger == false) {
+      //   shooter.setHoodOutput(0.0);
+      // } else if (rightTrigger == true) {
+      //   shooter.setHoodOutput(0.1);
+      // } else if (rightTrigger == false) {
+      //   shooter.setHoodOutput(0.0);
+      // }
+     
     
     }
   }

@@ -52,7 +52,7 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
   private final TeleopControl teleopControlForLittleKids = new TeleopControl(drivetrain, shooter, 1);
 
 
-  boolean lastButton = false;
+  boolean lastXButton = false;
   boolean isSlowMode = true;  
 
   /**
@@ -135,9 +135,7 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
   public void teleopPeriodic() {
     boolean xButton = driverController.getXButton();
     
-
-    
-    if(xButton == false && lastButton == true) {
+    if(xButton == false && lastXButton == true) {
     isSlowMode = !isSlowMode;
     } 
 
@@ -149,7 +147,7 @@ private CommandScheduler scheduler = CommandScheduler.getInstance();
        scheduler.schedule(teleopControlForBigKids);
      }
 
-    lastButton = xButton;
+    lastXButton = xButton;
     
     // boolean rightBumper = driverController.rightBumper().getAsBoolean();
     // boolean leftTrigger = driverController.leftTrigger().getAsBoolean();

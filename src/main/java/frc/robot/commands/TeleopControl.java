@@ -1,26 +1,9 @@
 package frc.robot.commands;
 
-
-
-import java.util.Map;
-
-import org.chsrobotics.lib.drive.differential.ArcadeDrive;
-import org.chsrobotics.lib.drive.differential.CurvatureDrive;
-import org.chsrobotics.lib.drive.differential.DifferentialDriveMode;
-import org.chsrobotics.lib.drive.differential.DifferentialDrivetrainInput;
-import org.chsrobotics.lib.drive.differential.MixedDrive;
-import org.chsrobotics.lib.drive.differential.TankDrive;
-import org.chsrobotics.lib.input.JoystickAxis;
-import org.chsrobotics.lib.telemetry.DashboardChooser;
-import org.chsrobotics.lib.telemetry.HighLevelLogger;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.Config;
-import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

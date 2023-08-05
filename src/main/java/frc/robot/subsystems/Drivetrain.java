@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems;
 
-import org.chsrobotics.lib.drive.differential.DifferentialDriveMode;
-import org.chsrobotics.lib.drive.differential.DifferentialDrivetrainInput;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
